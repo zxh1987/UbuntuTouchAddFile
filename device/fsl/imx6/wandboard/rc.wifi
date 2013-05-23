@@ -1,0 +1,16 @@
+#!/system/bin/sh
+
+sleep 3
+
+/system/bin/brcm_patchram_plus --timeout=12.0 --patchram /system/etc/firmware/brcm/bcm4329.hcd --baudrate 921600 --use_baudrate_for_download /dev/ttymxc2
+/system/bin/hciattach /dev/ttymxc2 any 921600 flow
+
+
+chmod 665 /sys/class/rfkill/rfkill0/state
+chown 1002:1002 /sys/class/rfkill/rfkill0/state
+write /sys/class/rfkill/rfkill0/state 0
+
+
+insmod /system/bin/wifi/brcmutil.ko
+insmod /system/bin/wifi/brcmfmac.ko
+
